@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { AlignJustify } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { AlignJustify } from "lucide-react";
+import { useState } from "react";
 
 export default function Home() {
   // 現在の日付を取得
@@ -24,7 +25,7 @@ export default function Home() {
 
   // 合計金額を計算
   const totalAmount = amountData.reduce((sum, item) => sum + item.amount, 0);
-  
+
   // 週間と月間の合計（サンプル）
   const weeklyTotal = 3210;
   const monthlyTotal = 3210;
@@ -32,24 +33,29 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-inter)]">
       {/* 上部バー */}
-      <header className="flex justify-between items-end p-4 bg-[#91D1D9] border-b border-[rgba(15,61,62,0.5)]">
+      <header className="flex justify-between items-end px-4 py-2 bg-[#91D1D9] border-b border-[rgba(15,61,62,0.5)]">
+        <Avatar>
+          <AvatarImage src="/avatar.jpg" className="rounded-full h-10 w-10" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
         <div className="flex items-end gap-2">
-          <div className="w-10 h-10 rounded-full bg-[#91D1D9]"></div>
           <h1 className="text-3xl font-bold text-[#0F3D3E]">KAKEIBO</h1>
         </div>
-        <button className="p-1">
-          <AlignJustify className="w-6 h-6 text-[#0F3D3E]" strokeWidth={2} />
-        </button>
+        <AlignJustify className="w-10 h-10 text-[#0F3D3E]" strokeWidth={2} />
       </header>
 
       <main className="flex-1 flex flex-col">
         {/* カレンダー */}
         <div className="flex p-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
-          <div className="flex flex-col items-center justify-center px-4">
-            <div className="flex flex-col items-center">
-              <span className="text-[80px] font-extrabold text-[#0F3D3E] leading-none">{currentMonth}</span>
+          <div className="flex flex-col gap-y-2 items-center justify-start px-4">
+            <div className="flex flex-col items-center p-2">
+              <span className="text-[80px] font-extrabold text-[#0F3D3E] leading-none">
+                {currentMonth}
+              </span>
             </div>
-            <span className="text-4xl font-extrabold text-[#0F3D3E]">{currentYear}</span>
+            <span className="text-4xl font-extrabold text-[#0F3D3E]">
+              {currentYear}
+            </span>
           </div>
           <div className="flex-1">
             <Calendar
@@ -63,13 +69,17 @@ export default function Home() {
 
         {/* 金額まとめ */}
         <div className="flex justify-center border-b border-[rgba(15,61,62,0.5)]">
-          <div className="w-1/2 flex justify-between items-center p-6 bg-[#91D1D9] border-r border-[rgba(15,61,62,0.5)]">
+          <div className="w-1/2 flex justify-between items-center px-4 py-6 bg-[#91D1D9] border-r border-[rgba(15,61,62,0.5)]">
             <span className="text-xl font-medium text-[#0F3D3E]">1 week</span>
-            <span className="text-xl font-medium text-[#0F3D3E]">{weeklyTotal}円</span>
+            <span className="text-xl font-medium text-[#0F3D3E]">
+              {weeklyTotal}円
+            </span>
           </div>
-          <div className="w-1/2 flex justify-between items-center p-6 bg-[#91D1D9] border-l border-[rgba(15,61,62,0.5)]">
+          <div className="w-1/2 flex justify-between items-center px-4 py-6 bg-[#91D1D9] border-l border-[rgba(15,61,62,0.5)]">
             <span className="text-xl font-medium text-[#0F3D3E]">1 month</span>
-            <span className="text-xl font-medium text-[#0F3D3E]">{monthlyTotal}円</span>
+            <span className="text-xl font-medium text-[#0F3D3E]">
+              {monthlyTotal}円
+            </span>
           </div>
         </div>
 
@@ -86,10 +96,16 @@ export default function Home() {
           {amountData.map((item, index) => (
             <div
               key={item.id}
-              className={`flex justify-between items-center p-4 border-b border-[rgba(15,61,62,0.5)] ${index % 2 === 0 ? 'bg-[#F0F0F0]' : 'bg-[#E3ECEC]'}`}
+              className={`flex justify-between items-center p-4 border-b border-[rgba(15,61,62,0.5)] ${
+                index % 2 === 0 ? "bg-[#F0F0F0]" : "bg-[#E3ECEC]"
+              }`}
             >
-              <span className="text-xl font-medium text-[#0F3D3E]">{item.name}</span>
-              <span className="text-xl font-medium text-[#0F3D3E]">{item.amount}円</span>
+              <span className="text-xl font-medium text-[#0F3D3E]">
+                {item.name}
+              </span>
+              <span className="text-xl font-medium text-[#0F3D3E]">
+                {item.amount}円
+              </span>
             </div>
           ))}
         </div>
@@ -97,7 +113,9 @@ export default function Home() {
         {/* 合計 */}
         <div className="flex justify-between items-center p-4 bg-[#91D1D9]">
           <span className="text-2xl font-bold text-[#0F3D3E]">Total</span>
-          <span className="text-2xl font-bold text-[#0F3D3E]">{totalAmount}円</span>
+          <span className="text-2xl font-bold text-[#0F3D3E]">
+            {totalAmount}円
+          </span>
         </div>
       </main>
     </div>
