@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { AlignJustify } from "lucide-react";
+import { useState } from "react";
 
 export default function Home() {
   // 現在の日付を取得
@@ -11,22 +12,45 @@ export default function Home() {
   const currentMonth = today.getMonth() + 1; // JavaScriptの月は0から始まるため+1
   const currentYear = today.getFullYear();
 
-  // 金額データ（実際のアプリではAPIやデータベースから取得）
-  const amountData = [
+  // 金額データをインメモリで保持（useState使用）
+  const [amountData, setAmountData] = useState([
     { id: 1, name: "金額 1", amount: 10000 },
     { id: 2, name: "金額 2", amount: 300 },
     { id: 3, name: "金額 3", amount: 1000 },
     { id: 4, name: "金額 4", amount: 200 },
     { id: 5, name: "金額 5", amount: 10 },
     { id: 6, name: "金額 6", amount: 0 },
-  ];
+  ]);
+
+  // 新しい金額を追加する関数
+  const addNewAmount = () => {
+    // 新しいIDを生成（既存の最大ID + 1）
+    const newId =
+      amountData.length > 0
+        ? Math.max(...amountData.map((item) => item.id)) + 1
+        : 1;
+
+    // ランダムな金額を生成（デモ用）
+    const randomAmount = Math.floor(Math.random() * 10000);
+
+    // 新しい金額データを作成
+    const newAmountItem = {
+      id: newId,
+      name: `金額 ${newId}`,
+      amount: randomAmount,
+    };
+
+    // 状態を更新
+    setAmountData([...amountData, newAmountItem]);
+  };
 
   // 合計金額を計算
   const totalAmount = amountData.reduce((sum, item) => sum + item.amount, 0);
 
-  // 週間と月間の合計（サンプル）
-  const weeklyTotal = 3210;
-  const monthlyTotal = 3210;
+  // 週間と月間の合計を動的に計算（デモ用）
+  // 実際のアプリでは日付に基づいて計算する
+  const weeklyTotal = Math.floor(totalAmount * 0.7); // デモ用に合計の70%
+  const monthlyTotal = totalAmount;
 
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-inter)]">
@@ -83,7 +107,10 @@ export default function Home() {
         {/* Day項目 */}
         <div className="flex justify-between items-center py-2 px-4 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
           <h2 className="text-xl font-medium text-[#0F3D3E]">Day</h2>
-          <Button className="bg-[#91D1D9] text-[#0F3D3E] border border-[#0F3D3E] hover:bg-[#7BBBC3] rounded-lg">
+          <Button
+            className="bg-[#91D1D9] text-[#0F3D3E] border border-[#0F3D3E] hover:bg-[#7BBBC3] rounded-lg flex items-center gap-1"
+            onClick={addNewAmount}
+          >
             Add
           </Button>
         </div>
