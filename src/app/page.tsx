@@ -4,12 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { AlignJustify } from "lucide-react";
-import { useState } from "react";
 
 export default function Home() {
   // 現在の日付を取得
   const today = new Date();
-  const [date, setDate] = useState<Date | undefined>(today);
   const currentMonth = today.getMonth() + 1; // JavaScriptの月は0から始まるため+1
   const currentYear = today.getFullYear();
 
@@ -47,7 +45,7 @@ export default function Home() {
       <main className="flex-1 flex flex-col">
         {/* カレンダー */}
         <div className="flex p-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
-          <div className="flex flex-col gap-y-2 items-center justify-start px-4">
+          <div className="flex flex-col gap-y-2 items-center justify-start px-4 flex-1">
             <div className="flex flex-col items-center p-2">
               <span className="text-[80px] font-extrabold text-[#0F3D3E] leading-none">
                 {currentMonth}
@@ -57,14 +55,11 @@ export default function Home() {
               {currentYear}
             </span>
           </div>
-          <div className="flex-1">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-md bg-white"
-            />
-          </div>
+          <Calendar
+            mode="single"
+            selected={today}
+            className="rounded-md bg-white"
+          />
         </div>
 
         {/* 金額まとめ */}
@@ -84,7 +79,7 @@ export default function Home() {
         </div>
 
         {/* Day項目 */}
-        <div className="flex justify-between items-center p-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
+        <div className="flex justify-between items-center py-2 px-4 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
           <h2 className="text-xl font-medium text-[#0F3D3E]">Day</h2>
           <Button className="bg-[#91D1D9] text-[#0F3D3E] border border-[#0F3D3E] hover:bg-[#7BBBC3] rounded-lg">
             Add
