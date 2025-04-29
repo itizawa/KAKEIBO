@@ -44,7 +44,7 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col">
         {/* カレンダー */}
-        <div className="flex p-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
+        <div className="flex gap-x-2 py-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
           <div className="flex flex-col gap-y-2 items-center justify-start px-4 flex-1">
             <div className="flex flex-col items-center p-2">
               <span className="text-[80px] font-extrabold text-[#0F3D3E] leading-none">
@@ -55,11 +55,13 @@ export default function Home() {
               {currentYear}
             </span>
           </div>
-          <Calendar
-            mode="single"
-            selected={today}
-            className="rounded-md bg-white"
-          />
+          <div className="pr-4">
+            <Calendar
+              mode="single"
+              selected={today}
+              className="rounded-md bg-white"
+            />
+          </div>
         </div>
 
         {/* 金額まとめ */}
