@@ -1,103 +1,105 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { AlignJustify } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // 現在の日付を取得
+  const today = new Date();
+  const [date, setDate] = useState<Date | undefined>(today);
+  const currentMonth = today.getMonth() + 1; // JavaScriptの月は0から始まるため+1
+  const currentYear = today.getFullYear();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  // 金額データ（実際のアプリではAPIやデータベースから取得）
+  const amountData = [
+    { id: 1, name: "金額 1", amount: 10000 },
+    { id: 2, name: "金額 2", amount: 300 },
+    { id: 3, name: "金額 3", amount: 1000 },
+    { id: 4, name: "金額 4", amount: 200 },
+    { id: 5, name: "金額 5", amount: 10 },
+    { id: 6, name: "金額 6", amount: 0 },
+  ];
+
+  // 合計金額を計算
+  const totalAmount = amountData.reduce((sum, item) => sum + item.amount, 0);
+  
+  // 週間と月間の合計（サンプル）
+  const weeklyTotal = 3210;
+  const monthlyTotal = 3210;
+
+  return (
+    <div className="flex flex-col min-h-screen font-[family-name:var(--font-inter)]">
+      {/* 上部バー */}
+      <header className="flex justify-between items-end p-4 bg-[#91D1D9] border-b border-[rgba(15,61,62,0.5)]">
+        <div className="flex items-end gap-2">
+          <div className="w-10 h-10 rounded-full bg-[#91D1D9]"></div>
+          <h1 className="text-3xl font-bold text-[#0F3D3E]">KAKEIBO</h1>
+        </div>
+        <button className="p-1">
+          <AlignJustify className="w-6 h-6 text-[#0F3D3E]" strokeWidth={2} />
+        </button>
+      </header>
+
+      <main className="flex-1 flex flex-col">
+        {/* カレンダー */}
+        <div className="flex p-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
+          <div className="flex flex-col items-center justify-center px-4">
+            <div className="flex flex-col items-center">
+              <span className="text-[80px] font-extrabold text-[#0F3D3E] leading-none">{currentMonth}</span>
+            </div>
+            <span className="text-4xl font-extrabold text-[#0F3D3E]">{currentYear}</span>
+          </div>
+          <div className="flex-1">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              className="rounded-md bg-white"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+        </div>
+
+        {/* 金額まとめ */}
+        <div className="flex justify-center border-b border-[rgba(15,61,62,0.5)]">
+          <div className="w-1/2 flex justify-between items-center p-6 bg-[#91D1D9] border-r border-[rgba(15,61,62,0.5)]">
+            <span className="text-xl font-medium text-[#0F3D3E]">1 week</span>
+            <span className="text-xl font-medium text-[#0F3D3E]">{weeklyTotal}円</span>
+          </div>
+          <div className="w-1/2 flex justify-between items-center p-6 bg-[#91D1D9] border-l border-[rgba(15,61,62,0.5)]">
+            <span className="text-xl font-medium text-[#0F3D3E]">1 month</span>
+            <span className="text-xl font-medium text-[#0F3D3E]">{monthlyTotal}円</span>
+          </div>
+        </div>
+
+        {/* Day項目 */}
+        <div className="flex justify-between items-center p-2 bg-[#E3ECEC] border-b border-[rgba(15,61,62,0.5)]">
+          <h2 className="text-xl font-medium text-[#0F3D3E]">Day</h2>
+          <Button className="bg-[#91D1D9] text-[#0F3D3E] border border-[#0F3D3E] hover:bg-[#7BBBC3] rounded-lg">
+            Add
+          </Button>
+        </div>
+
+        {/* 金額項目リスト */}
+        <div className="flex-1 flex flex-col">
+          {amountData.map((item, index) => (
+            <div
+              key={item.id}
+              className={`flex justify-between items-center p-4 border-b border-[rgba(15,61,62,0.5)] ${index % 2 === 0 ? 'bg-[#F0F0F0]' : 'bg-[#E3ECEC]'}`}
+            >
+              <span className="text-xl font-medium text-[#0F3D3E]">{item.name}</span>
+              <span className="text-xl font-medium text-[#0F3D3E]">{item.amount}円</span>
+            </div>
+          ))}
+        </div>
+
+        {/* 合計 */}
+        <div className="flex justify-between items-center p-4 bg-[#91D1D9]">
+          <span className="text-2xl font-bold text-[#0F3D3E]">Total</span>
+          <span className="text-2xl font-bold text-[#0F3D3E]">{totalAmount}円</span>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
